@@ -34,7 +34,7 @@ export async function getSheetData() {
             spreadsheetId:
                 process.env.GOOGLE_SHEET_ID,
 
-            range:"Sheet1!A:G"
+            range:"Sheet1!A:F"
         })
 
     return response.data.values

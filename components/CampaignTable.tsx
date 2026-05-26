@@ -1,108 +1,202 @@
 export default function CampaignTable({
     data
-}:{
-    data:any[]
-}){
-
-    return(
-
-        <div className="
-        bg-white
-        rounded-xl
-        shadow
-        p-5
-        overflow-x-auto
-        ">
-
-            <h2 className="
-            text-xl
+}: {
+    data: any[]
+}) {
+    return (
+        <div
+            className="
+      bg-white
+      rounded-2xl
+      shadow-md
+      border
+      border-gray-100
+      p-4
+      sm:p-6
+      "
+        >
+            <div
+                className="
+        flex
+        flex-col
+        sm:flex-row
+        sm:items-center
+        sm:justify-between
+        mb-5
+        gap-2
+        "
+            >
+                <div>
+                    <h2
+                        className="
+            text-lg
+            sm:text-xl
             font-bold
-            mb-5
-            ">
-
-                Campaign Data
-
-            </h2>
-
-            <table className="
-            w-full
-            text-sm
-            ">
-
-                <thead>
-
-                <tr className="
-                border-b
-                text-left
-                ">
-
-                    <th>Date</th>
-                    <th>Account Name</th>
-                    <th>Clicks</th>
-                    <th>Impressions</th>
-                    <th>Conversions</th>
-                    <th>CPC</th>
-                    <th>Spend</th>
-                    <th>CPM</th>
-                    <th>CPA</th>
-                    <th>CVR</th>
-                    <th>ROAS</th>
-
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                {data.map((item,index)=>(
-
-                    <tr
-                    key={index}
-                    className="border-b"
+            "
                     >
+                        Campaign Data
+                    </h2>
 
-                        <td>{item.date}</td>
+                    <p
+                        className="
+            text-sm
+            text-gray-500
+            mt-1
+            "
+                    >
+                        Campaign performance overview
+                    </p>
+                </div>
+            </div>
 
-                        <td>{item.campaign}</td>
+            <div
+                className="
+        overflow-x-auto
+        rounded-xl
+        border
+        "
+            >
+                <table
+                    className="
+          min-w-[1100px]
+          w-full
+          text-sm
+          "
+                >
+                    <thead
+                        className="
+            bg-gray-50
+            sticky
+            top-0
+            z-10
+            "
+                    >
+                        <tr
+                            className="
+              text-left
+              text-gray-600
+              border-b
+              "
+                        >
+                            <th className="px-4 py-4 font-semibold">
+                                Date
+                            </th>
 
-                        <td>{item.clicks}</td>
+                            <th className="px-4 py-4 font-semibold">
+                                Account
+                            </th>
 
-                        <td>{item.impressions}</td>
+                            <th className="px-4 py-4 font-semibold">
+                                Clicks
+                            </th>
 
-                        <td>{item.conversions}</td>
+                            <th className="px-4 py-4 font-semibold">
+                                Impressions
+                            </th>
 
-                        <td>{item.cpc.toFixed(3)}</td>
+                            <th className="px-4 py-4 font-semibold">
+                                Conversions
+                            </th>
 
-                        <td>
-                            ${item.spend.toFixed(2)}
-                        </td>
+                            <th className="px-4 py-4 font-semibold">
+                                CPC
+                            </th>
 
-                        <td>
-                            {item.cpm.toFixed(2)}
-                        </td>
+                            <th className="px-4 py-4 font-semibold">
+                                Spend
+                            </th>
 
-                        <td>
-                            {item.cpa.toFixed(2)}
-                        </td>
+                            <th className="px-4 py-4 font-semibold">
+                                CPM
+                            </th>
 
-                        <td>
-                            {item.cvr.toFixed(2)}%
-                        </td>
+                            <th className="px-4 py-4 font-semibold">
+                                CTR
+                            </th>
 
-                        <td>
-                            {item.roas.toFixed(2)}
-                        </td>
+                            <th className="px-4 py-4 font-semibold">
+                                CPA
+                            </th>
 
-                    </tr>
+                            <th className="px-4 py-4 font-semibold">
+                                CVR
+                            </th>
+                        </tr>
+                    </thead>
 
-                ))}
+                    <tbody>
+                        {data.map((item, index) => (
+                            <tr
+                                key={index}
+                                className="
+      border-b
+      hover:bg-gray-50
+      transition-colors
+      odd:bg-white
+      even:bg-gray-50/30
+      "
+                            >
+                                <td className="px-4 py-4 whitespace-nowrap">
+                                    {item.date}
+                                </td>
 
-                </tbody>
+                                <td
+                                    className="
+        px-4
+        py-4
+        font-medium
+        whitespace-nowrap
+        "
+                                >
+                                    {item.accountName}
+                                </td>
 
-            </table>
+                                <td className="px-4 py-4">
+                                    {item.clicks}
+                                </td>
 
+                                <td className="px-4 py-4">
+                                    {item.impressions}
+                                </td>
+
+                                <td className="px-4 py-4">
+                                    {item.conversions}
+                                </td>
+
+                                <td className="px-4 py-4">
+                                    ${item.cpc.toFixed(3)}
+                                </td>
+
+                                <td
+                                    className="
+        px-4
+        py-4
+        font-medium
+        "
+                                >
+                                    ${item.spend.toFixed(2)}
+                                </td>
+
+                                <td className="px-4 py-4">
+                                    {item.cpm.toFixed(2)}
+                                </td>
+
+                                <td className="px-4 py-4">
+                                    {item.ctr.toFixed(2)}%
+                                </td>
+
+                                <td className="px-4 py-4">
+                                    ${item.cpa.toFixed(2)}
+                                </td>
+
+                                <td className="px-4 py-4">
+                                    {item.cvr.toFixed(2)}%
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
-
     )
-
 }

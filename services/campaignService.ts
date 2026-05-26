@@ -8,47 +8,56 @@ export async function getCampaignData() {
     const dataRows =
         rows?.slice(1) || [];
 
-    return dataRows.map((row)=>{
+    return dataRows.map((row) => {
 
-        const date = row[0];
-        const campaign = row[1];
+        const date =
+            row[0];
+
+        const accountName =
+            row[1];
 
         const clicks =
-            Number(row[2]);
+            Number(
+                String(row[2] || "0")
+                    .replace(/,/g, "")
+            );
 
         const impressions =
-            Number(row[3]);
+            Number(
+                String(row[3] || "0")
+                    .replace(/,/g, "")
+            );
 
         const conversions =
-            Number(row[4]);
+            Number(
+                String(row[4] || "0")
+                    .replace(/,/g, "")
+            );
 
         const cpc =
-            Number(row[5]);
-
-        const revenue =
-            Number(row[6]);
+            Number(
+                String(row[5] || "0")
+                    .replace(/,/g, "")
+            );
 
         const metrics =
             calculateMetrics(
                 clicks,
                 impressions,
                 conversions,
-                cpc,
-                revenue
+                cpc
             );
 
-        return{
+        return {
 
             date,
-            campaign,
+            accountName,
             clicks,
             impressions,
             conversions,
             cpc,
-            revenue,
 
             ...metrics
-
         };
 
     });

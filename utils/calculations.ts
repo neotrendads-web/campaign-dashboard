@@ -2,34 +2,31 @@ export function calculateMetrics(
     clicks: number,
     impressions: number,
     conversions: number,
-    cpc: number,
-    revenue: number
+    cpc: number
 ) {
-
-    const spend = clicks * cpc
+    const spend = clicks * cpc;
 
     return {
-
         spend,
 
         cpm:
-            impressions
-            ? (spend / impressions) * 1000
-            : 0,
+            impressions > 0
+                ? (spend / impressions) * 1000
+                : 0,
+
+        ctr:
+            impressions > 0
+                ? (clicks / impressions) * 100
+                : 0,
 
         cpa:
-            conversions
-            ? spend / conversions
-            : 0,
+            conversions > 0
+                ? spend / conversions
+                : 0,
 
         cvr:
-            clicks
-            ? (conversions / clicks) * 100
-            : 0,
-
-        roas:
-            spend
-            ? revenue / spend
-            : 0
-    }
+            clicks > 0
+                ? (conversions / clicks) * 100
+                : 0
+    };
 }
