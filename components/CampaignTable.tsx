@@ -37,7 +37,7 @@ export default function CampaignTable({
                 ">
 
                     <th>Date</th>
-                    <th>Campaign</th>
+                    <th>Account Name</th>
                     <th>Clicks</th>
                     <th>Impressions</th>
                     <th>Conversions</th>

@@ -23,6 +23,11 @@ export async function getSheetData() {
         auth
     })
 
+    console.log(
+    "GOOGLE_SHEET_ID:",
+    process.env.GOOGLE_SHEET_ID
+)
+
     const response =
         await sheets.spreadsheets.values.get({
 

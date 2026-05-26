@@ -1,344 +1,254 @@
 "use client";
 
-import { useEffect,useMemo,useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import CampaignChart
-from "@/components/CampaignChart";
+import CampaignChart from "@/components/CampaignChart";
+import CampaignTable from "@/components/CampaignTable";
 
-import CampaignTable
-from "@/components/CampaignTable";
+export default function Home() {
 
-export default function Home(){
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
 
-const today=
-new Date()
-.toISOString()
-.split("T")[0];
+  const [campaigns, setCampaigns] =
+    useState<any[]>([]);
 
-const [campaigns,setCampaigns]=
-useState<any[]>([]);
+  const [loading, setLoading] =
+    useState(true);
 
-const [loading,setLoading]=
-useState(true);
+  const [startDate, setStartDate] =
+    useState(today);
 
-const [startDate,setStartDate]=
-useState(today);
+  const [endDate, setEndDate] =
+    useState(today);
 
-const [endDate,setEndDate]=
-useState(today);
+  useEffect(() => {
 
-const [selectedCampaign,
-setSelectedCampaign]=
-useState("");
+    async function loadData() {
 
-useEffect(()=>{
+      try {
 
-async function loadData(){
+        const response =
+          await fetch(
+            "/api/campaigns"
+          );
 
-try{
+        const data =
+          await response.json();
 
-const response=
-await fetch(
-"/api/campaigns"
-);
+        setCampaigns(data);
 
-const data=
-await response.json();
+      } catch (error) {
 
-setCampaigns(data);
+        console.log(error);
 
-}catch(error){
+      } finally {
 
-console.log(error);
+        setLoading(false);
 
-}finally{
+      }
 
-setLoading(false);
+    }
 
-}
+    loadData();
 
-}
+  }, []);
 
-loadData();
 
-},[]);
+  const filteredData =
+    useMemo(() => {
 
+      return campaigns.filter(
+        (item) => {
 
-const campaignOptions=
-useMemo(()=>{
+          const currentDate =
+            new Date(item.date);
 
-return [...new Set(
+          currentDate.setHours(
+            0, 0, 0, 0
+          );
 
-campaigns.map(
-(item)=>item.campaign
-)
+          const start =
+            new Date(startDate);
 
-)];
+          const end =
+            new Date(endDate);
 
-},[campaigns]);
+          start.setHours(
+            0, 0, 0, 0
+          );
 
+          end.setHours(
+            23, 59, 59, 999
+          );
 
-const filteredData=
-useMemo(()=>{
+          return (
+            currentDate >= start &&
+            currentDate <= end
+          );
 
-return campaigns.filter(
-(item)=>{
+        });
 
-const currentDate=
-new Date(item.date);
+    }, [
+      campaigns,
+      startDate,
+      endDate
+    ]);
 
-currentDate.setHours(
-0,0,0,0
-);
 
-const start=
-new Date(startDate);
+  const resetFilters = () => {
 
-const end=
-new Date(endDate);
+    setStartDate(today);
 
-start.setHours(
-0,0,0,0
-);
+    setEndDate(today);
 
-end.setHours(
-23,59,59,999
-);
+  };
 
-const matchesDate=
 
-currentDate>=start &&
-currentDate<=end;
+  if (loading) {
 
-const matchesCampaign=
+    return <div>Loading...</div>
 
-selectedCampaign
-? item.campaign===selectedCampaign
-: true;
+  }
 
-return(
-matchesDate &&
-matchesCampaign
-);
+  return (
 
-});
+    <div className="
+      min-h-screen
+      bg-gray-100
+      p-4
+      md:p-8
+    ">
 
-},[
-campaigns,
-startDate,
-endDate,
-selectedCampaign
-]);
+      <div className="
+        max-w-7xl
+        mx-auto
+      ">
+
+        <h1 className="
+          text-3xl
+          font-bold
+          mb-6
+        ">
 
+          Campaign Dashboard
 
-const resetFilters=()=>{
+        </h1>
 
-setStartDate(today);
 
-setEndDate(today);
+        <div className="
+          bg-white
+          rounded-xl
+          shadow
+          p-5
+          mb-6
+        ">
 
-setSelectedCampaign("");
+          <div className="
+            grid
+            grid-cols-1
+            md:grid-cols-3
+            gap-4
+          ">
 
-};
+            <div>
 
+              <label>
 
-if(loading){
+                Start Date
 
-return<div>Loading...</div>
+              </label>
 
-}
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) =>
+                  setStartDate(
+                    e.target.value
+                  )
+                }
+                className="
+                  border
+                  rounded-lg
+                  w-full
+                  p-2
+                "
+              />
 
-return(
+            </div>
 
-<div className="
-min-h-screen
-bg-gray-100
-p-4
-md:p-8
-">
 
-<div className="
-max-w-7xl
-mx-auto
-">
+            <div>
 
-<h1 className="
-text-3xl
-font-bold
-mb-6
-">
+              <label>
 
-Campaign Dashboard
+                End Date
 
-</h1>
+              </label>
 
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) =>
+                  setEndDate(
+                    e.target.value
+                  )
+                }
+                className="
+                  border
+                  rounded-lg
+                  w-full
+                  p-2
+                "
+              />
 
-<div className="
-bg-white
-rounded-xl
-shadow
-p-5
-mb-6
-">
+            </div>
 
-<div className="
-grid
-grid-cols-1
-md:grid-cols-4
-gap-4
-">
 
-<div>
+            <div
+              className="
+                flex
+                items-end
+              "
+            >
 
-<label>
+              <button
+                onClick={
+                  resetFilters
+                }
+                className="
+                  bg-black
+                  text-white
+                  w-full
+                  p-2
+                  rounded-lg
+                "
+              >
 
-Start Date
+                Reset Filters
 
-</label>
+              </button>
 
-<input
-type="date"
-value={startDate}
-onChange={(e)=>
-setStartDate(
-e.target.value
-)
-}
-className="
-border
-rounded-lg
-w-full
-p-2
-"
-/>
+            </div>
 
-</div>
+          </div>
 
+        </div>
 
-<div>
+        <CampaignChart
+          data={filteredData}
+        />
 
-<label>
+        <CampaignTable
+          data={filteredData}
+        />
 
-End Date
+      </div>
 
-</label>
+    </div>
 
-<input
-type="date"
-value={endDate}
-onChange={(e)=>
-setEndDate(
-e.target.value
-)
-}
-className="
-border
-rounded-lg
-w-full
-p-2
-"
-/>
-
-</div>
-
-
-<div>
-
-<label>
-
-Campaign
-
-</label>
-
-<select
-value={
-selectedCampaign
-}
-onChange={(e)=>
-setSelectedCampaign(
-e.target.value
-)
-}
-className="
-border
-rounded-lg
-w-full
-p-2
-"
->
-
-<option value="">
-
-All Campaigns
-
-</option>
-
-{campaignOptions.map(
-(campaign,index)=>(
-
-<option
-key={index}
-value={campaign}
->
-
-{campaign}
-
-</option>
-
-)
-
-)}
-
-</select>
-
-</div>
-
-
-<div
-className="
-flex
-items-end
-"
->
-
-<button
-
-onClick={
-resetFilters
-}
-
-className="
-bg-black
-text-white
-w-full
-p-2
-rounded-lg
-"
-
->
-
-Reset Filters
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<CampaignChart
-data={filteredData}
-/>
-
-<CampaignTable
-data={filteredData}
-/>
-
-</div>
-
-</div>
-
-)
+  )
 
 }
