@@ -113,142 +113,121 @@ export default function Home() {
 
   }
 
-  return (
+return (
+
+<div className="
+    min-h-screen
+    bg-gray-100
+    text-black
+    p-4
+    md:p-8
+">
 
     <div className="
-      min-h-screen
-      bg-gray-100
-      p-4
-      md:p-8
-    ">
-
-      <div className="
         max-w-7xl
         mx-auto
-      ">
+    ">
 
         <h1 className="
-          text-3xl
-          font-bold
-          mb-6
+            text-3xl
+            font-bold
+            text-black
+            mb-6
         ">
-
-          Campaign Dashboard
-
+            Campaign Dashboard
         </h1>
 
-
         <div className="
-          bg-white
-          rounded-xl
-          shadow
-          p-5
-          mb-6
+            bg-white
+            text-black
+            rounded-xl
+            shadow
+            p-5
+            mb-6
         ">
 
-          <div className="
-            grid
-            grid-cols-1
-            md:grid-cols-3
-            gap-4
-          ">
+            <div className="
+                grid
+                grid-cols-1
+                md:grid-cols-3
+                gap-4
+            ">
 
-            <div>
+                <div>
+                    <label className="text-black mb-1 block">
+                        Start Date
+                    </label>
 
-              <label>
+                    <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e)=>
+                            setStartDate(e.target.value)
+                        }
+                        className="
+                            border
+                            rounded-lg
+                            w-full
+                            p-2
+                            bg-white
+                            text-black
+                        "
+                    />
+                </div>
 
-                Start Date
+                <div>
+                    <label className="text-black mb-1 block">
+                        End Date
+                    </label>
 
-              </label>
+                    <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e)=>
+                            setEndDate(e.target.value)
+                        }
+                        className="
+                            border
+                            rounded-lg
+                            w-full
+                            p-2
+                            bg-white
+                            text-black
+                        "
+                    />
+                </div>
 
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) =>
-                  setStartDate(
-                    e.target.value
-                  )
-                }
-                className="
-                  border
-                  rounded-lg
-                  w-full
-                  p-2
-                "
-              />
+                <div className="flex items-end">
 
-            </div>
+                    <button
+                        onClick={resetFilters}
+                        className="
+                            bg-black
+                            text-white
+                            w-full
+                            p-2
+                            rounded-lg
+                        "
+                    >
+                        Reset Filters
+                    </button>
 
-
-            <div>
-
-              <label>
-
-                End Date
-
-              </label>
-
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) =>
-                  setEndDate(
-                    e.target.value
-                  )
-                }
-                className="
-                  border
-                  rounded-lg
-                  w-full
-                  p-2
-                "
-              />
-
-            </div>
-
-
-            <div
-              className="
-                flex
-                items-end
-              "
-            >
-
-              <button
-                onClick={
-                  resetFilters
-                }
-                className="
-                  bg-black
-                  text-white
-                  w-full
-                  p-2
-                  rounded-lg
-                "
-              >
-
-                Reset Filters
-
-              </button>
+                </div>
 
             </div>
-
-          </div>
 
         </div>
 
         <CampaignChart
-          data={filteredData}
+            data={filteredData}
         />
 
         <CampaignTable
-          data={filteredData}
+            data={filteredData}
         />
-
-      </div>
 
     </div>
 
-  )
+</div>
 
-}
+)
